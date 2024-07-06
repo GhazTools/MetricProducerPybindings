@@ -1,0 +1,3 @@
+[submodule "lib/MetricProducer"]
+	path = lib/MetricProducer
+	url = https://github.com/GhazTools/MetricProducer
