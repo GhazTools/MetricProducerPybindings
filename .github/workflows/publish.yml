@@ -16,8 +16,8 @@ jobs:
         include:
           - os: ubuntu-latest
             suffix: so
-          - os: macos-latest
-            suffix: dylib
+          # - os: macos-latest
+          #   suffix: dylib
 
     steps:
       - uses: actions/checkout@v2
