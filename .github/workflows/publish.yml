@@ -43,6 +43,12 @@ jobs:
         run: |
           git submodule update --init --recursive
 
+      - name: Install dependencies on Ubuntu
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librdkafka-dev pkg-config
+
       - name: Build wheels
         shell: bash
         run: |
@@ -51,7 +57,7 @@ jobs:
 
           else
             cat /etc/os-release
-            echo "yum install -y pkgconfig librdkafka || apk add pkgconfig librdkafka || apt-get install -y curl pkg-config librdkafka-dev" > prebuild.sh
+            echo "cat /etc/os-release && (yum install -y pkgconfig librdkafka || apk add pkgconfig librdkafka || apt-get install -y curl pkg-config librdkafka-dev)" > prebuild.sh
           fi
 
           chmod +x prebuild.sh
