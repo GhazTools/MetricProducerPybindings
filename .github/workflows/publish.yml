@@ -57,7 +57,7 @@ jobs:
 
           else
             cat /etc/os-release
-            echo "cat /etc/os-release && (yum install -y pkgconfig librdkafka || apk add pkgconfig librdkafka || apt-get install -y curl pkg-config librdkafka-dev)" > prebuild.sh
+            echo "cat /etc/os-release && (yum install -y pkgconfig librdkafka-devel | apk add pkgconfig librdkafka || apt-get install -y curl pkg-config librdkafka-dev)" > prebuild.sh
           fi
 
           chmod +x prebuild.sh
