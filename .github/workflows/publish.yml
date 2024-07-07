@@ -48,7 +48,7 @@ jobs:
 
           else
             cat /etc/os-release
-            echo "(cat /etc/os-release && yum check-update -y && yum install -y pkgconfig librdkafka-devel) || (cat /etc/os-release && apk update && apk add pkgconfig librdkafka) || (cat /etc/os-release && apt-get update -y && apt-get install -y pkg-config librdkafka-dev)" > prebuild.sh
+            echo "(cat /etc/os-release && yum check-update -y && yum install -y pkgconfig librdkafka-devel) || (cat /etc/os-release && apk update && apk add pkgconfig librdkafka-dev) || (cat /etc/os-release && apt-get update -y && apt-get install -y pkg-config librdkafka-dev)" > prebuild.sh
             #   || apk update && apk add pkgconfig librdkafka || apt-get update -y && apt-get install -y pkg-config librdkafka-dev)
           fi
 
