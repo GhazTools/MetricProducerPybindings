@@ -31,10 +31,17 @@ jobs:
         run: python -m pip install cibuildwheel twine build pytest
 
       - name: List contents of the lib directory
+        run: ls -la lib/MetricProducer
+
+      - name: List contents of the lib directory
         run: ls -la lib/
 
       - name: List contents of the project root directory
         run: ls -la
+
+      - name: Checkout submodules
+        run: |
+          git submodule update --init --recursive
 
       - name: Build wheels
         shell: bash
