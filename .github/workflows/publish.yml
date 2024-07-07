@@ -1,0 +1,58 @@
+name: CMake Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 480
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            suffix: so
+          - os: macos-latest
+            suffix: dylib
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - name: Install Packages
+        run: python -m pip install cibuildwheel twine build pytest
+
+      - name: Build wheels
+        shell: bash
+        run: |
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+            echo "brew install pkgconfig librdkafka" > prebuild.sh
+
+          else
+            cat /etc/os-release
+            echo "yum install -y pkgconfig librdkafka || apk add pkgconfig librdkafka || apt-get install -y curl pkg-config librdkafka-dev" > prebuild.sh
+          fi
+
+          chmod +x prebuild.sh
+          ls -l prebuild.sh  # Check that prebuild.sh exists and is executable
+          cat prebuild.sh  # Check the contents of prebuild.sh
+          platform=$(echo ${{ runner.os }} | tr '[:upper:]' '[:lower:]')
+          python -m cibuildwheel --platform $platform --output-dir wheelhouse
+        env:
+          CIBW_BEFORE_BUILD: "./prebuild.sh"
+          CIBW_SKIP: "cp38-* cp39-* cp310-* cp311=* cp312=*"
+          CIBW_BUILD: cp311*
+
+      - name: Publish to PyPI
+        run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl --verbose
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
