@@ -1,1 +1,0 @@
-from metric_producer import MetricProducer

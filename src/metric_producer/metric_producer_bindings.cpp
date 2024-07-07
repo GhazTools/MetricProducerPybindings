@@ -11,5 +11,5 @@ PYBIND11_MODULE(metric_producer_bindings, m)
 {
     py::class_<MetricProducer>(m, "MetricProducerBindings")
         .def(py::init())
-        .def("grant_access_token", &MetricProducer::produce);
+        .def("produce", &MetricProducer::produce);
 }

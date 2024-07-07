@@ -11,7 +11,7 @@ class MetricProducer():
     def produce(self, application_name: str, metric_name: str) -> bool:
         return self._impl.produce(application_name, metric_name)
 
-    def _verify_environment(self) -> bool:
+    def _verify_environment(self) -> None:
         environment_variables: list[str] = [
             "BOOTSTRAP_SERVERS",
             "SECURITY_PROTOCOL",
@@ -24,5 +24,7 @@ class MetricProducer():
         for variable in environment_variables:
             if not getenv(variable):
                 return False
+            
+        return True
         
         
