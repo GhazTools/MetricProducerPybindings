@@ -61,6 +61,7 @@ jobs:
           CIBW_BEFORE_BUILD: "./prebuild.sh"
           CIBW_SKIP: "cp38-* cp39-* cp310-* cp311=* cp312=*"
           CIBW_BUILD: cp311*
+          CIBW_ENVIRONMENT: "MACOSX_DEPLOYMENT_TARGET=14.0"
 
       - name: Publish to PyPI
         run: python -m twine upload --repository-url https://pypi.ghaz.dev:440 wheelhouse/*.whl --verbose
